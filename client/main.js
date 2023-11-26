@@ -1,88 +1,110 @@
-// This is the front end that is communicating with our HTML
+console.log('JS is connected!')
 
-console.log('JS is connected')
+const baseUrl = 'http://localhost:8000'
+
+const charDisplay = document.querySelector('#charDisplay')
+const charForm = document.querySelector('form')
+
+const createCharCard = (charObject) => {
+
+    const newCharCard = document.createElement('section')
+    newCharCard.className = 'char-card'
+
+    newCharCard.innerHTML = `
+        <img src=${charObject.picture} alt='charecter picture'/>
+        <p>${charObject.name}</p>
+        <p>${charObject.age}</p>
+        <p>${charObject.catchphrase}</p>
+
+        <section>
+            <button onclick="updateChar(${charObject.id}, 'downvote')">-</button>
+            Popularity: ${charObject.votes}
+            <button onclick="updateChar(${charObject.id}, 'upvote')">+</button>
+        </section>
+
+        <br/>
+        <button onclick="deleteChar(${charObject.id})" >Delete Me</button>
+        <br/>
 
 
-const drinkDisplay = document.querySelector('#drinkDisplay')
-const drinkForm = document.querySelector('form')
-const baseUrl = 'http://localhost:8000';
-
-const createDrinkCard = (drinkObject) => {
-    const newDrinkCard = document.createElement('section')
-
-    newDrinkCard.innerHTML = `
-    <img src=${drinkObject.picture} alt='drink picture'/>
-    <p>${drinkObject.name}</p>
-
-    <section> 
-        <button>-</button>
-        Popularity: ${drinkObject.votes}
-        <button>+</button>
-    </section>
-
-    <br/>
-    <br/>
-
-    <button onClick="deleteDrink(${drinkObject.id})" >Delete Me</button>
-
-    <br/>
-    <br/>
     `
-
-    drinkDisplay.appendChild(newDrinkCard)
+    charDisplay.appendChild(newCharCard)
 }
 
-const displayAllDrinks = (arr) => {
-    for (let i = 0; i < arr.length; i++) {
-        createDrinkCard(arr[i])
+const displayAllCharacters = (arr) => {
+    for(let i = 0; i < arr.length; i++){
+        console.log(arr[i])
+        createCharCard(arr[i])
     }
 }
 
-const getAllDrinks = () => {
-    axios.get(`${baseUrl}/drinks`)
+const getAllCharacters = () => {
+    axios.get('http://localhost:8000/drinks')
         .then((response) => {
             console.log(response.data)
-            displayAllDrinks(response.data)
+            displayAllCharacters(response.data)
         })
-        .catch(theseHands => {
+        .catch((theseHands) => {
             console.log(theseHands)
         })
 }
 
 const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    drinkDisplay.innerHTML = ''
+    charDisplay.innerHTML = ''
 
-    let name = document.querySelector('#drinkName')
-    let drinkPicture = document.querySelector('#drinkPicture')
+    let name = document.querySelector('#charName')
+    let charPicture = document.querySelector('#charPicture')
 
     let bodyObj = {
-        drinkName: name.value,
-        drinkPic: drinkPicture.value
+        charName: name.value,
+        charPic: charPicture.value
     }
 
     axios.post(`${baseUrl}/drink`, bodyObj)
-    .then((response) => {
-        console.log(response.data)
-        displayAllDrinks(response.data)
-    })
-    .catch(theseHands => {
-        console.log(theseHands)
-    })
+        .then((response) => {
+            console.log(response.data)
+            displayAllCharacters(response.data)
+        })
+        .catch((theseHands) => {
+            console.log(theseHands)
+        })
 }
 
-const deleteDrink = (id) => {
+const deleteChar = (id) => {
+
     axios.delete(`${baseUrl}/drink/${id}`)
         .then((res) => {
             console.log(res.data)
-            drinkDisplay.innerHTML = ''
-            displayAllDrinks(res.data)
+            charDisplay.innerHTML = ''
+            displayAllCharacters(res.data)
+        })
+        .catch((theseHands) => {
+            console.log(theseHands)
+        })
+}
+
+
+const updateChar = (id, type) => {
+
+    let bodyObj = {
+        type: type
+    }
+
+    axios.put(`${baseUrl}/drink/${id}`, bodyObj)
+        .then((res) => {
+            console.log(res.data)
+            charDisplay.innerHTML = ''
+            displayAllCharacters(res.data)
+        })
+        .catch((theseHands) => {
+            console.log(theseHands)
         })
 }
 
 
 
-drinkForm.addEventListener('submit', handleSubmit)
+charForm.addEventListener('submit', handleSubmit)
 
-getAllDrinks()
+getAllCharacters()
