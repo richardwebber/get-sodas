@@ -39,7 +39,7 @@ const displayAllCharacters = (arr) => {
 }
 
 const getAllCharacters = () => {
-    axios.get('http://localhost:8000/drinks')
+    axios.get('http://localhost:8000/characters')
         .then((response) => {
             console.log(response.data)
             displayAllCharacters(response.data)
@@ -56,13 +56,17 @@ const handleSubmit = (e) => {
 
     let name = document.querySelector('#charName')
     let charPicture = document.querySelector('#charPicture')
+    let charAge = document.querySelector('#charAge')
+    let charQuote = document.querySelector('#charQuote')
 
     let bodyObj = {
         charName: name.value,
-        charPic: charPicture.value
+        charPic: charPicture.value,
+        characterAge: charAge.value,
+        characterQuote: charQuote.value
     }
 
-    axios.post(`${baseUrl}/drink`, bodyObj)
+    axios.post(`${baseUrl}/character`, bodyObj)
         .then((response) => {
             console.log(response.data)
             displayAllCharacters(response.data)
@@ -74,7 +78,7 @@ const handleSubmit = (e) => {
 
 const deleteChar = (id) => {
 
-    axios.delete(`${baseUrl}/drink/${id}`)
+    axios.delete(`${baseUrl}/character/${id}`)
         .then((res) => {
             console.log(res.data)
             charDisplay.innerHTML = ''
@@ -92,7 +96,7 @@ const updateChar = (id, type) => {
         type: type
     }
 
-    axios.put(`${baseUrl}/drink/${id}`, bodyObj)
+    axios.put(`${baseUrl}/character/${id}`, bodyObj)
         .then((res) => {
             console.log(res.data)
             charDisplay.innerHTML = ''

@@ -25,19 +25,19 @@ app.use(session({
 
 // ROUTES GO HERE
 
-const {sayHello, allDrinks, oneDrink, addDrink, deleteDrink, updateDrink} = handlerFunctions
+const {sayHello, allCharacters, oneChar, addChar, deleteChar, updateChar} = handlerFunctions
 
 app.get('/hello', sayHello)
 
-app.get('/drinks', allDrinks)
+app.get('/characters', allCharacters)
 
-app.get('/oneDrink/:index', oneDrink)
+app.get('/oneChar/:index', oneChar)
 
-app.post('/drink', addDrink)
+app.post('/character', addChar)
 
-app.delete('/drink/:id', deleteDrink)
+app.delete('/character/:id', deleteChar)
 
-app.put('/drink/:id', updateDrink)
+app.put('/character/:id', updateChar)
 
 
 
