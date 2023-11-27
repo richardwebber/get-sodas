@@ -47,9 +47,9 @@ app.get('/oneChar/:index', oneChar)
 // When this HTTP POST request path is called, which is called from our front end, 
 // it will add a the values put in by the user to the page.
 app.post('/character', addChar)
-
+// When this HTTP DELETE request path is called, the deleteChar removes the respected character based on the id selected.
 app.delete('/character/:id', deleteChar)
-
+// When this HTTP PUT request path is called, the updateChar changes the respected characters vote based on the id selected.
 app.put('/character/:id', updateChar)
 
 
