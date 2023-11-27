@@ -1,9 +1,22 @@
-import characters from './db.json' assert {type: 'json'}
 
+// Bringing data from an external file called db.json.
+// Assert checks that the file passes as json.
+// The variable to access this file will be called characters.
+import characters from './db.json' assert {type: 'json'}
+// Setting up a global variable id to 4 because we will always start out with 3 characters in our object when our server is rendered.
+// In our db.json file, each character has an key "id" with a value. 
+// The id value starts at 1 and goes to 3
 let globalId = 4
 
-const handlerFunctions = {
 
+
+
+
+
+// Creating a object by the name of handlerFunctions. 
+const handlerFunctions = {
+    // Creating an object key that its value is an arrow function. 
+    // Our function will take 2 arguments, a request and a response.
     sayHello: (req, res) => {
         res.send('Hello there!')
     },
@@ -24,11 +37,13 @@ const handlerFunctions = {
         // pass in the values from the request
         // add that object to the drinks array
         console.log(req.body)
-        const {charName, charPic} = req.body
+        const {charName, charPic, charAge, charCatchphrase} = req.body
 
         let newObj = {
             id: globalId,
             name: charName,
+            age: charAge,
+            catchphrase: charCatchphrase,
             picture: charPic,
             votes: 0
         }
